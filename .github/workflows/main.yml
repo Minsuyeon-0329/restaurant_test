@@ -2,6 +2,7 @@ name: GithubActions Demo
 on:
   push:
   workflow_dispatch:
+  pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
