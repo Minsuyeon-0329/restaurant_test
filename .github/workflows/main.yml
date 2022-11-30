@@ -1,0 +1,15 @@
+name: GithubActions Demo
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Set up
+        uses: fwilhe2/setup-kotlin@main
+      - run: kotlinc myProgram.kt -include-runtime -d /tmp/hello.jar; java -jar /tmp/hello.jar
+      - run: kotlin myScript.main.kts
+    
