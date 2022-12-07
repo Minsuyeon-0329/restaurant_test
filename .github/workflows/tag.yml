@@ -11,6 +11,22 @@ jobs:
     name: Upload Release Asset
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Set up
+        uses: fwilhe2/setup-kotlin@main
+      - name: Compile
+        run: kotlinc main.kt -include-runtime -d /tmp/hello.jar
+      - name: Run test
+        run: java -jar /tmp/hello.jar   
+      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          # Artifact name
+          name: Build Artifact
+          path: /tmp/hello.jar
+          # The desired behavior if no files are found using the provided path.
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build project # This would actually build your project, using zip for an example artifact
@@ -33,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: https://github.com/Minsuyeon-0329/restaurant_test.git # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./my-artifact.zip
-          asset_name: my-artifact.zip
+          asset_path: /tmp/hello.jar
+          asset_name: hello.jar
           asset_content_type: application/zip
           
